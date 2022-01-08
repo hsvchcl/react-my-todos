@@ -1,0 +1,10 @@
+.checked{
+    transition: .2s;
+    color: lightgrey;
+    text-decoration: line-through;
+}
+
+.normal{
+    color: black;
+    transition: .2s;
+}
