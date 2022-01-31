@@ -5,26 +5,28 @@ import { TodoList } from "./components/TodoList";
 import { TodoSearch } from "./components/TodoSearch";
 import { TodoButtonAdd } from "./components/TodoButtonAdd";
 import { Page, Spacer } from "@geist-ui/react";
+import { useState } from "react";
 
 function App() {
-  const todos = [
-    { item: "acostar Noam", id: 1 },
-    { item: "Tomar Once", id: 2 },
-    { item: "Almorzar", id: 3 },
-  ];
+  const [state, setState] = useState({ task: [] });
+
+  const addNewTask = (task) => {
+    setState({ task: [...state.task, task] });
+  };
+
   return (
     <Page>
-      <TodoCounter />
+      <TodoCounter count={state.task.length} />
       <Spacer h={2} />
       <TodoSearch />
       <Spacer h={2} />
       <TodoList>
-        {todos.map((element) => {
-          return <TodoItem item={element.item} key={element.id} />;
+        {state.task.map((element) => {
+          return <TodoItem item={element.taskName} key={element.id} />;
         })}
       </TodoList>
       <Spacer h={2} />
-      <TodoButtonAdd />
+      <TodoButtonAdd setNewTask={addNewTask} />
     </Page>
   );
 }
