@@ -1,21 +1,12 @@
 import "./style.css";
 import { Card, Spacer, Checkbox } from "@geist-ui/react";
-import { useState } from "react";
 const TodoItem = (props) => {
-  const [state, setState] = useState({ check: false });
-
-  const checkTask = ({ target }) => {
-    setState({ check: target.checked });
-  };
-
   return (
     <>
       <Card>
-        <Checkbox checked={false} scale={1.5} onChange={checkTask}>
+        <Checkbox checked={false} scale={1.5} onChange={props.onComplete}>
           {" "}
-          <span className={state.check ? "checked" : "normal"}>
-            {props.item}
-          </span>
+          <span>{props.item}</span>
         </Checkbox>
       </Card>
       <Spacer h={1} />
