@@ -1,10 +1,18 @@
-const TodoCounter = ({ completeTodoCount, allTodosCount }) => (
-  <h2>
-    {completeTodoCount !== allTodosCount &&
-      `${completeTodoCount} todos completed from ${allTodosCount} todos`}
-    {completeTodoCount === allTodosCount &&
-      `Haz completado todas las tareas pendientes.`}
-  </h2>
-);
+const TodoCounter = ({ completeTodoCount, allTodosCount }) => {
+  console.log(completeTodoCount, allTodosCount);
+
+  return (
+    <h2>
+      {completeTodoCount > 0 &&
+        allTodosCount > 0 &&
+        `Haz completado ${completeTodoCount} tarea(s) de ${allTodosCount}`}
+      {completeTodoCount === 0 && allTodosCount === 0 && `Ingresa tus tareas`}
+
+      {completeTodoCount === 0 &&
+        allTodosCount > 0 &&
+        `Tareas ingresadas ${allTodosCount}`}
+    </h2>
+  );
+};
 
 export { TodoCounter };

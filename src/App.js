@@ -18,8 +18,11 @@ function App() {
   });
 
   const completeTodoCount = state.task.filter(
-    (todo) => !!todo.completed
-  ).length;
+    (todo) => todo.completed
+  );
+
+  console.log('completeTodoCount=>',completeTodoCount);
+
   const allTodosCount = state.task.length;
 
   let filterTodos;
