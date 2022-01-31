@@ -1,17 +1,10 @@
 import { useState } from "react";
 import { Button, Modal, Input, Textarea, Spacer } from "@geist-ui/react";
 
-const TodoButtonAdd = ({ setNewTask }) => {
-  const [state, setState] = useState(false);
-  const [form, setForm] = useState({
-    taskName: null,
-    taskDescription: null,
-    id: Math.random(),
-  });
-
-  const handler = () => setState(true);
+const TodoButtonAdd = ({ setNewTask, state, setModalState, form, setForm }) => {
+  const handler = () => setModalState(true);
   const closeHandler = (event) => {
-    setState(false);
+    setModalState(false);
     console.log("closed");
   };
 
@@ -19,7 +12,7 @@ const TodoButtonAdd = ({ setNewTask }) => {
     setForm({
       taskName: value,
       taskDescription: form.taskDescription,
-      id: form.id,
+      id: Math.random(),
     });
   };
 
@@ -50,7 +43,7 @@ const TodoButtonAdd = ({ setNewTask }) => {
             width="100%"
           />
         </Modal.Content>
-        <Modal.Action passive onClick={() => setState(false)}>
+        <Modal.Action passive onClick={() => setModalState(false)}>
           Cancel
         </Modal.Action>
         <Modal.Action onClick={() => setNewTask(form)}>Add Task</Modal.Action>

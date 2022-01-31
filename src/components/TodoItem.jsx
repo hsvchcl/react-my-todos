@@ -1,6 +1,7 @@
 import "./style.css";
 import { Card, Spacer, Checkbox } from "@geist-ui/react";
 const TodoItem = (props) => {
+  console.log(props)
   return (
     <>
       <Card>

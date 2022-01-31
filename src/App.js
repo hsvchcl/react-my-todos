@@ -6,37 +6,42 @@ import { TodoList } from "./components/TodoList";
 import { TodoSearch } from "./components/TodoSearch";
 import { TodoButtonAdd } from "./components/TodoButtonAdd";
 import { Page, Spacer } from "@geist-ui/react";
-const defaultTodos = [
-  { item: "acostar Noam", id: 1, completed: false },
-  { item: "Tomar Once", id: 2, completed: false },
-  { item: "Almorzar", id: 3, completed: false },
-];
 
 function App() {
   const [searchValue, setSearchValue] = useState("");
-  const [todos, setTodos] = useState(defaultTodos);
   const [state, setState] = useState({ task: [] });
-  const completeTodoCount = todos.filter((todo) => !!todo.completed).length;
-  const allTodosCount = todos.length;
+  const [modalState, setModalState] = useState(false);
+  const [form, setForm] = useState({
+    taskName: null,
+    taskDescription: null,
+    id: 0,
+  });
+
+  const completeTodoCount = state.task.filter(
+    (todo) => !!todo.completed
+  ).length;
+  const allTodosCount = state.task.length;
 
   let filterTodos;
   if (searchValue) {
-    filterTodos = todos.filter((todo) =>
+    filterTodos = state.task.filter((todo) =>
       todo.item.toLowerCase().includes(searchValue.toLowerCase())
     );
   } else {
-    filterTodos = todos;
+    filterTodos = state.task;
+    console.log(filterTodos);
   }
 
   const onComplete = (check, element) => {
     const idx = filterTodos.map((x) => x.item).indexOf(element);
-    const newTodos = [...todos];
+    const newTodos = [...state.task];
     if (idx >= 0) newTodos[idx].completed = check.target.checked;
-    setTodos(newTodos);
+    setState({ task: newTodos });
   };
 
   const addNewTask = (task) => {
     setState({ task: [...state.task, task] });
+    setModalState(false);
   };
 
   return (
@@ -52,7 +57,7 @@ function App() {
         {filterTodos.map((element) => {
           return (
             <TodoItem
-              item={element.item}
+              item={element.taskName}
               key={element.id}
               onComplete={(target) => onComplete(target, element.item)}
             />
@@ -60,7 +65,13 @@ function App() {
         })}
       </TodoList>
       <Spacer h={2} />
-      <TodoButtonAdd setNewTask={addNewTask} />
+      <TodoButtonAdd
+        setNewTask={addNewTask}
+        state={modalState}
+        setModalState={setModalState}
+        form={form}
+        setForm={setForm}
+      />
     </Page>
   );
 }
