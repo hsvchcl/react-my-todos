@@ -15,7 +15,7 @@ const defaultTodos = [
 function App() {
   const [searchValue, setSearchValue] = useState("");
   const [todos, setTodos] = useState(defaultTodos);
-
+  const [state, setState] = useState({ task: [] });
   const completeTodoCount = todos.filter((todo) => !!todo.completed).length;
   const allTodosCount = todos.length;
 
@@ -33,6 +33,10 @@ function App() {
     const newTodos = [...todos];
     if (idx >= 0) newTodos[idx].completed = check.target.checked;
     setTodos(newTodos);
+  };
+
+  const addNewTask = (task) => {
+    setState({ task: [...state.task, task] });
   };
 
   return (
@@ -56,7 +60,7 @@ function App() {
         })}
       </TodoList>
       <Spacer h={2} />
-      <TodoButtonAdd />
+      <TodoButtonAdd setNewTask={addNewTask} />
     </Page>
   );
 }
