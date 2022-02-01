@@ -1,6 +1,4 @@
 const TodoCounter = ({ completeTodoCount, allTodosCount }) => {
-  console.log(completeTodoCount, allTodosCount);
-
   return (
     <h2>
       {completeTodoCount > 0 &&
