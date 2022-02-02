@@ -1,8 +1,6 @@
-
-
 const TodoList = (props) => {
   return (
-    <section>
+    <section style={{ maxHeight: "50vh", overflowY: "auto" }}>
       {props.children}
     </section>
   );

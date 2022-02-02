@@ -4,7 +4,7 @@ const TodoCounter = ({ completeTodoCount, allTodosCount }) => {
       {completeTodoCount > 0 &&
         allTodosCount > 0 &&
         `Haz completado ${completeTodoCount} tarea(s) de ${allTodosCount}`}
-      {completeTodoCount === 0 && allTodosCount === 0 && `Ingresa tus tareas`}
+      {completeTodoCount === 0 && allTodosCount === 0 && `Registra tu primera tarea 🥳`}
 
       {completeTodoCount === 0 &&
         allTodosCount > 0 &&

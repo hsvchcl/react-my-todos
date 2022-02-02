@@ -1,10 +1,22 @@
-.checked{
+.checked {
     transition: .2s;
     color: lightgrey;
     text-decoration: line-through;
 }
 
-.normal{
+.normal {
     color: black;
     transition: .2s;
 }
+
+.wrapper {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    grid-gap: 10px;
+    background-color: #fff;
+    color: #444;
+}
+
+.box {
+    padding: 10px;
+  }

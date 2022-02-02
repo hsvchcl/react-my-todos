@@ -5,7 +5,7 @@ import { TodoItem } from "./components/TodoItem";
 import { TodoList } from "./components/TodoList";
 import { TodoSearch } from "./components/TodoSearch";
 import { TodoButtonAdd } from "./components/TodoButtonAdd";
-import { Page, Spacer } from "@geist-ui/react";
+import { Page, Spacer, useToasts } from "@geist-ui/react";
 
 function App() {
   const [searchValue, setSearchValue] = useState("");
@@ -17,6 +17,14 @@ function App() {
     taskDescription: null,
     id: 0,
   });
+  const [toasts, setToast] = useToasts();
+
+  useEffect(() => {
+    const task = JSON.parse(localStorage.getItem("ls_task"));
+    if (task) {
+      setState(task);
+    }
+  }, []);
 
   useEffect(() => {
     const completedTask = state.task.filter((e) => !!e.completed).length;
@@ -33,36 +41,63 @@ function App() {
     filterTodos = state.task;
   }
 
+  // Mark a task complete
   const onComplete = (check, element) => {
-    console.log(element, check);
     const idx = filterTodos.map((x) => x.id).indexOf(element);
 
     const newTodos = [...state.task];
     if (idx >= 0) newTodos[idx].completed = check.target.checked;
     setState({ task: newTodos });
+    localStorage.setItem("ls_task", JSON.stringify({ task: newTodos }));
   };
 
+  // Add a new task
   const addNewTask = (task) => {
     setState({ task: [...state.task, task] });
+    localStorage.setItem(
+      "ls_task",
+      JSON.stringify({ task: [...state.task, task] })
+    );
     setModalState(false);
+    setToast({
+      text: `${task.taskName} agregado a tus tareas! 👍🏻 `,
+      type: "success",
+    });
+  };
+
+  // Delete Task
+  const deleteTask = (task) => {
+    const idx = state.task.findIndex((task_) => task_.id === task.id);
+    let taskCopy = state.task;
+    taskCopy.splice(idx, 1);
+    setState({ task: taskCopy });
+    const completedTask = state.task.filter((e) => !!e.completed).length;
+    const totalTask = state.task.length;
+    setCounters({ completedTask, totalTask });
+    localStorage.setItem("ls_task", JSON.stringify({ task: taskCopy }));
+    setToast({ text: `${task.taskName}, eliminado.`, type: "error" });
   };
 
   return (
-    <Page>
+    <Page width="600px" dotBackdrop={true} >
       <TodoCounter
         completeTodoCount={counters.completedTask}
         allTodosCount={counters.totalTask}
       />
       <Spacer h={2} />
-      <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
+      {state.task.length > 0 && (
+        <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
+      )}
       <Spacer h={2} />
       <TodoList>
-        {filterTodos.map((element) => {
+        {filterTodos.map((task) => {
           return (
             <TodoItem
-              item={element.taskName}
-              key={element.id}
-              onComplete={(target) => onComplete(target, element.id)}
+              task={task}
+              key={task.id}
+              onComplete={(target) => onComplete(target, task.id)}
+              isChecked={task.completed}
+              deleteTask={deleteTask}
             />
           );
         })}
