@@ -1,4 +1,4 @@
-import "./style.css";
+import "../styles/style.css";
 import { Card, Spacer, Checkbox, Button } from "@geist-ui/react";
 import { Trash } from "@geist-ui/icons";
 const TodoItem = ({ task, onComplete, isChecked, deleteTask }) => {
@@ -14,7 +14,8 @@ const TodoItem = ({ task, onComplete, isChecked, deleteTask }) => {
             >
               {" "}
               <span className={isChecked ? "checked" : "normal"}>
-                {task.taskName}
+                {task.taskName} -{" "}
+                <i style={{ color: "lightgray" }}>{task.taskDescription}</i>
               </span>
             </Checkbox>
           </div>
