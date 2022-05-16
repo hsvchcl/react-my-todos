@@ -9,7 +9,7 @@ const TodoSearch = ({ searchValue, setSearchValue }) => {
       scale={4 / 3}
       clearable
       width="100%"
-      placeholder="Buscar tarea"
+      placeholder="Búsqueda"
       onChange={searchTask}
       value={searchValue}
     />
